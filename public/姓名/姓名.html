@@ -1,0 +1,165 @@
+<html>
+<head>
+        <script>
+            var max=100;
+            var canvas=document.getElementsByName("canvas")[0];
+            var x1=new Array();
+            var y1=new Array();
+
+            var x2=new Array();
+            var y2=new Array();
+
+            //初始化数组
+            for(var i=0;i<MAX;i++)
+            {
+                x1[i]=0;
+                y1[i]=0;
+            }
+
+            for(var i=0;i<MAX;i++)
+            {
+                x2[i]=0;
+                y2[i]=0;
+            }
+
+            //读取文件并存入数组
+            function readfile()
+            {   
+                var file1=document.getElementById("file1").files[0];
+                var reader1=new FileReader();
+                reader1.readAsText(file1);
+                reader1.onload = function (e) 
+                {
+                     //以换行标志作为分隔符
+                   
+                        var fileText1 = e.target.result.split("/n");
+                        for(var i=0;i<fileText1.length;i++)
+                        {
+                            if(fileText1[i].length>2) //取出所有非END的行
+                            {
+                                var arr=fileText1[i].split(",");//将编号、x、y分隔开
+                                y1[i]=arr[0];
+                                 x1[i]=arr[1];
+                            }
+                            else
+                            {
+                                y1[i]=0;
+                                x1[i]=0;
+                            }
+                        }
+                }
+
+               var file2=document.getElementById("file2").files[0];
+                var reader2=new FileReader();
+                reader2.readAsText(file);
+                reader2.onload = function (e) 
+                {
+                     //以换行标志作为分隔符
+                    var fileText2 = e.target.result.split("/n");
+                    for(var i=0;i<fileText2.length;i++)
+                    {
+                        if(fileText2[i].length>2) //取出所有非END的行
+                        {
+                            var arr=fileText2[i].split(",");//将编号、x、y分隔开
+                            y2[i]=arr[0];
+                             x2[i]=arr[1];
+                        }
+                         else
+                        {
+                                y2[i]=0;
+                                x2[i]=0;
+                        }
+                    }
+                }
+        
+            }  
+           
+             //绘制
+            function draw_name(canvas1,canvas2)
+            {
+                var ctx = canvas.getContext("2d");  
+                ctx.lineWidth =5;
+                ctx.strokeStyle ='red';   
+                canvas1.width = 300;
+                canvas1.height = 300;
+                  
+                 for(var i=0;i<MAX-1;i++)
+                {
+                        
+                    if((x1[i]!=0)&&(x1[i+1]!=0))
+                    {
+                        ctx.beginPath();
+                        ctx.moveTo(x1[i]*10,y1[i]*10);
+                        ctx.lineTo(x1[i+1]*10,y1[i+1]*10);
+                        ctx.stroke();
+                    }
+                        
+                }
+                var ctx = canvas.getContext("2d");  
+                ctx.lineWidth =5;
+                ctx.strokeStyle ='red';   
+                canvas2.width = 300;
+                canvas2.height = 300;
+                  
+                 for(var i=0;i<MAX-1;i++)
+                {
+                        
+                    if((x2[i]!=0)&&(x2[i+1]!=0))
+                    {
+                        ctx.beginPath();
+                        ctx.moveTo(x2[i]*10,y2[i]*10);
+                        ctx.lineTo(x2[i+1]*10,y2[i+1]*10);
+                        ctx.stroke();
+                    }
+                        
+                }
+            }
+
+        
+        
+        </script>
+
+</head>
+<body>
+        <p>
+                选择文件:<input type="file" id="file1" >
+                <input type="file" id="file2" >
+            </p>
+            <p>
+                <input type="submit" id="button1"  value="确定" onclick="readfile()">
+            </p>
+            <p>
+                <input type="submit" id="button2"  value="绘制" onclick="draw_name(canvas1,canvas2)">
+                
+            </p>
+            <div id="tt">
+                    </div>
+            <!--绘制区域-->
+            <table width="300" height="300" border="1">
+              
+              <tr>
+                <th scope="col"><canvas name=canvas1></canvas></th>
+                <th scope="col"><canvas name=canvas2></canvas></th>
+              </tr>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+    

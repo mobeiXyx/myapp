@@ -1,0 +1,210 @@
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    
+    <style>
+    body{font-family:Verdana, Geneva, sans-serif; font-size:12px; margin:0px; padding:0px;}
+    table{font-size:12px; font-family:Verdana, Geneva, sans-serif}
+    td{text-align:center; background:#FFF}
+    tr{height:20px;}
+    th{background:#9DACBF; color:#FFF; height:20px; line-height:20px}
+    a{color:#99C;}
+    a:hover{color:#F93}
+    .input td{padding:2px}
+    .input input{width:100%; border:1px solid #000; overflow:hidden}
+    .btn{}
+    </style>
+    <script src="jquery-1.2.6.min.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+    
+ 
+    function Job(name,time,lasttime,value)
+    {
+      this.name=name;
+      this.time=time;
+      this.lasttime=lasttime;
+      this.value=value;
+    }
+
+    var Jobinfo = new Job;
+    var i=0;
+
+
+
+
+
+
+
+    //简化document.getElementById()方法
+    function getObj(obj){  
+      return document.getElementById(obj);
+    }
+    function insRow(){ 
+      //插入行
+      var obj=getObj("nw");
+      var newRow=obj.insertRow(obj.rows.length);  //插入行方法
+      var newCell1=newRow.insertCell(newRow.cells.length);  //插入单元格 如果直接用insertCell()在FF里会出错，所以为了兼容，我们要加上newRow.cells.length参数
+      var newCell2=newRow.insertCell(newRow.cells.length);
+      var newCell3=newRow.insertCell(newRow.cells.length);
+      var newCell4=newRow.insertCell(newRow.cells.length);
+      var newCell5=newRow.insertCell(newRow.cells.length);
+      newCell1.innerHTML=getObj("name").value;  //插入单元格后，现在向单元格中添加内容
+      newCell2.innerHTML=getObj("time").value;
+      newCell3.innerHTML=getObj("lasttime").value;
+      newCell4.innerHTML=getObj("value").value;
+
+     Jobinfo[i](getObj("name").value,getObj("time").value,getObj("lasttime").value,getObj("value").value);
+     i++;
+
+
+      //清空文本框
+      document.all("name").value="";
+      document.all("time").value="";
+      document.all("lasttime").value="";
+      document.all("value").value="";
+      
+      //将当前表格最后一行的序号写在delRow()方法中，这样我们可以在delRow()方法中删除当前行
+      newCell5.innerHTML='<a href="javascript:delRow('+(obj.rows.length-1)+')">删除</a>'; 
+      
+    }
+    //删除行
+    function delRow(i){  
+      var obj=getObj("nw");
+      obj.deleteRow(i);
+    }
+
+    //找出时间最少，价值最大的工作
+    function findMaxvalue(a)
+    {
+      //找出价值最大的工作
+      var Maxvalue = new Job;
+      MaxValue=JobInfo[0];
+      for (var j = 0; j < i; j++)
+      {
+          if (Jobinfo[i].value > Maxvalue.value)
+          Maxvalue = Jobinfo[i];
+      }
+      //找出价值相同的工作序号最少的
+      {
+        for (var j = 0; j < i; j++)
+            {
+                if (Maxvalue.value == Jobinfo[i].value && Maxvalue.name > Jobinfo[i].name)
+                {
+                    Maxvalue = Jobinfo[i];
+                }
+            
+            }
+                return Maxvalue;
+      }
+    }
+
+
+
+
+
+    function GetBestOrder( Jobinfo,Nextjob, BestOrder, SumTime)
+        {
+            //满足所有工作进入BestOrder栈后，函数结束
+            if (JobInfo.Count==0) return;
+            //如果NextJob组为空时，进行出栈操作，JobInfo中加入对应的数据，并使SumTime减去对应的值，更新NextJob
+            if (NextJob.Count == 0)
+            {
+                var Popjob = new Job;
+                Popjob = BestOrder.Pop();
+                JobInfo.Add(Popjob);
+                SumTime = SumTime - Popjob.TimeNeeded;
+                NextJob = FindMaxValue.FindNextJob(NextJob, Popjob, JobInfo);
+                GetBestOrder(JobInfo, NextJob, BestOrder, SumTime);
+            }
+            //NextJob不为空时，查找其中价值最大中序号最小的工作，如果该工作满足最后期限要求，将工作放入BestOrder栈中，
+            //同时在JobInfo中去除该工作，更新NextJob,否则移除NextJob中对应的工作。
+            else
+            {
+                //查找其中价值最大中序号最小的工作
+                var MaxValueJob = FindMaxValue.FindMaxValueJob(NextJob);
+                //如果该工作满足最后期限要求，将工作放入BestOrder栈中，同时在JobInfo中去除该工作，更新NextJob.
+                if (SumTime + MaxValueJob.TimeNeeded <= MaxValueJob.lastTime)
+                {
+                    SumTime = SumTime + MaxValueJob.TimeNeeded;
+                    BestOrder.Push(MaxValueJob);
+                    JobInfo.Remove(MaxValueJob);
+                    new  job = new Job[I];
+                    for (var h = 0; h < i; h++)
+                    {
+                        job[i].JobId = JobInfo[i].JobId;
+                        job[i].TimeNeeded = JobInfo[i].TimeNeeded;
+                        job[i].DeadTime = JobInfo[i].DeadTime;
+                        job[i].Value = JobInfo[i].Value;
+                    }
+                    NextJob.Clear();
+                    NextJob.AddRange(job);
+                }
+                //不满足要求则在NextJob中移除MaxValueJob
+                else
+                {
+                    NextJob.Remove(MaxValueJob);
+                }
+                GetBestOrder(JobInfo, NextJob, BestOrder, SumTime);
+            }
+        
+        }
+
+
+
+
+
+
+
+
+
+
+            //更新NextJob组，确保查找过的工作不再查找
+    function FindNextJob(NextJob,JObinfo)
+        {
+           new Job= new NJob[i];
+            for (var k = 0; k < i; k++)
+            {
+                if (JObinfo[i].Value <= PopJOb.Value&&PopJOb.JobId<JObInfo[i].JobId)
+                {
+                    job[i].JobId = JObInfo[i].JobId;
+                    job[i].TimeNeeded = JObInfo[i].TimeNeeded;
+                    job[i].DeadTime = JObInfo[i].DeadTime;
+                    job[i].Value = JObInfo[i].Value;
+                    NextJob.Add(job[i]);
+                }
+            
+            }
+        }
+    
+
+
+
+
+
+
+
+    </script>
+    </head>
+    
+    <body>
+    
+    <table id="nw" cellpadding="0" cellspacing="1" border="0" width="320" bgcolor="#CCCC99">
+     <th>任务</th>
+          <th>费时</th>
+          <th>最后完成期限</th>
+          <th>价值</th>
+          <th>操作</th>
+      <tr class="input">
+        <td><input type="text" id="name" /></td>
+        <td><input type="text" id="time" /></td>
+        <td><input type="text" id="lasttime" /></td>
+        <td><input type="text" id="value" /></td>
+        <td style="width:52px"><input type="button" value="添 加" class="btn" onClick="insRow()" /></td>
+      </tr>
+       
+    </table>
+    </body>
+    </html>
