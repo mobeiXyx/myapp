@@ -1,5 +1,13 @@
 <html>
 <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="stylesheets/style.css" rel="stylesheet">
+        <link href="stylesheets/fonts.css" rel="stylesheet">
+        <script type="text/javascript" src="javascripts/functions.js"></script>
+
+
         <script>
             
 
@@ -10,13 +18,13 @@
 
                 
                 var canvas=document.getElementsByID("canvas");
-                var line=new Array;
+                var line;
                 var n=0;
 
                 var file=document.getElementById("file").files[0];
                 var reader=new FileReader();
                 reader.readAsText(file);
-                var fileText = e.target.result.split("\n");
+                var fileText = e.target.result.split("\r\n");
                 
                 reader.onload = function (e) 
                 {
@@ -28,6 +36,7 @@
 
                         if(fileText[i].length!=1 &&fileText[i]!="end" ) //取出所有非END的行
                             {
+                                
                                 var arr=fileText[i].split(",");//将编号、x、y分隔开
                                 line[n][k].x=arr[0];
                                 line[n][k].y=arr[1];

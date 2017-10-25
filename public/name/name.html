@@ -1,0 +1,281 @@
+<html lang="en">
+    <head>
+        <title>Name</title>   
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="stylesheets/style.css" rel="stylesheet">
+        <link href="stylesheets/fonts.css" rel="stylesheet">
+        <script type="text/javascript" src="javascripts/functions.js"></script>
+
+
+        <script type="text/javascript">
+        var N=0;
+        var Lines=new Array();
+        function Point(x,y)
+        {
+            this.x=x;
+            this.y=y;
+        }
+        function read()
+            {   
+                
+                var inputfile = document.getElementById("fileinput").files[0];
+                var reader = new FileReader();
+                reader.readAsText(inputfile);
+                reader.onload=function(e)
+                {   
+                    var text=reader.result.split("\r\n");
+                    Lines[N]=new Array();
+            
+                    var l=text.length;
+                    var judge=0;
+                    for(i=1;i<l-1;i++) 
+                    {   
+                        
+                        if(text[i]!="END")
+                        {   
+                            if(text[i].length!=1)
+                            {
+                            var x;
+                            var y;
+                            x=text[i].split(",")[0];
+                            y=text[i].split(",")[1];
+                            Lines[N][judge]=new Point(x,y);
+                            judge=judge+1;
+                            }
+                        }
+                        else
+                        {
+                            judge=0;
+                            N=N+1;
+                            Lines[N]=new Array();
+                        }
+                    }
+                   
+                    
+                }
+            
+            }
+
+            function zhengchang()
+            {
+                read();
+
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");
+                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*10,(Lines[i][j].y)*10);
+                        cxt.lineTo((Lines[i][j+1].x)*10,(Lines[i][j+1].y)*10);
+                        cxt.stroke();
+                    }
+                }
+
+            }
+
+
+
+
+
+
+
+
+
+            function zuoxie()
+            {
+                read();
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll;j++)
+                    {
+                        Lines[i][j].x=Lines[i][j].x+Lines[i][j].y*0.5;
+                    }
+                }
+
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");
+                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+ 
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x),(Lines[i][j].y)*10);
+                        cxt.lineTo((Lines[i][j+1].x),(Lines[i][j+1].y)*10);
+                        cxt.stroke();
+                    }
+                }
+
+
+            }
+
+
+            function songjian ()
+            {
+                read();
+                
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll;j++)
+                    {
+                        Lines[i][j].y=Lines[i][j].y+5-(16-Lines[i][j].y);
+                    }
+                }
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*10,(Lines[i][j].y));
+                        cxt.lineTo((Lines[i][j+1].x)*10,(Lines[i][j+1].y));
+                        cxt.stroke();
+                    }
+                }
+            }
+
+            function bili ()
+            {
+                read();
+                
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*12,(Lines[i][j].y)*12);
+                        cxt.lineTo((Lines[i][j+1].x)*12,(Lines[i][j+1].y)*12);
+                        cxt.stroke();
+                    }
+                }
+            }
+
+            function xuanzhuan ()
+            {
+                read();
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll;j++)
+                    {
+                        var s=Math.sqrt(Lines[i][j].x*Lines[i][j].x+Lines[i][j].y*Lines[i][j].y);
+                        var q=Math.atan(Lines[i][j].y/Lines[i][j].x);
+                        Lines[i][j].x=s*Math.cos(q+15/180);
+                        Lines[i][j].y=s*Math.sin(q+15/180);
+                    }
+                }
+                
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*10,(Lines[i][j].y)*10);
+                        cxt.lineTo((Lines[i][j+1].x)*10,(Lines[i][j+1].y)*10);
+                        cxt.stroke();
+                    }
+                }
+            }
+            
+            function duichen ()
+            {
+                read();
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll;j++)
+                    {
+                        Lines[i][j].x=16-Lines[i][j].x;
+                        Lines[i][j].y=16-Lines[i][j].y;
+                    }
+                }
+                
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*10,(Lines[i][j].y)*10);
+                        cxt.lineTo((Lines[i][j+1].x)*10,(Lines[i][j+1].y)*10);
+                        cxt.stroke();
+                    }
+                }
+            }
+
+            function pingyi ()
+            {
+                read();
+                var canvas = document.getElementById("canv");
+                var cxt = canvas.getContext("2d");                    
+                cxt.lineWidth = 5;
+                for(i=0;i<N+1;i++)
+                {   
+                    var ll=Lines[i].length;
+                    for(j=0;j<ll-1;j++)
+                    {
+                        cxt.beginPath();
+                        cxt.moveTo((Lines[i][j].x)*10+50,(Lines[i][j].y)*10);
+                        cxt.lineTo((Lines[i][j+1].x)*10+50,(Lines[i][j+1].y)*10);
+                        cxt.stroke();
+                    }
+                }
+            }
+
+
+        </script>
+    </head> 
+
+    
+    <body>
+        <div class="bg">
+            <div class="bg-left">
+            <input type="file" id="fileinput">
+            <br>
+            <br>
+            <input type="button" value="正常" onclick="zhengchang()">
+            <input type="button" value="左斜" onclick="zuoxie()">
+            <input type="button" value="耸肩" onclick="songjian()">
+            <input type="button" value="比例" onclick="bili()">
+            <input type="button" value="旋转" onclick="xuanzhuan()">
+            <input type="button" value="对称" onclick="duichen()">
+            <input type="button" value="平移" onclick="pingyi()">
+           
+            </div>
+            <div class="bg-right">
+                <canvas id="canv" width="3000px" height="3000px"></canvas>
+            </div>
+        </div>
+    
+   
+    </body>
+
+
+</body>
+</html>
+    
