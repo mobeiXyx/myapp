@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <title>Daogelasi</title>
+    </head>
+        <body>
+            <p>
+                选择文件:<input type="file" id="file" >
+            </p>
+            <p>
+
+            </p>
+            <p>
+                <input type="submit" id="button2"  value="绘制压缩前地图" onclick="readfile();draw_map(canvas)">
+                <input type="submit" id="button3"  value="绘制压缩后地图" onclick="Daogelasi(0,count-1);draw_map(canvas)">
+            </p>
+            <p id="demo"></p>
+            <p id="demo1"></p>
+            
+            <!--绘制区域-->
+            <table width="1000" height="700" border="1">
+              <tr>
+                <th scope="col"><canvas name=canvas></canvas></th>
+              </tr>
+            </table>
+        </body>
+            <script>
+                var MAXAMOUNT=100000;
+                var canvas=document.getElementsByName("canvas")[0];
+                var x=new Array();
+                var y=new Array();
+                var count=0;
+                
+                for(var i=0;i<MAXAMOUNT;i++)
+                {
+                    x[i]=0;
+                    y[i]=0;
+                }
+                //读取文件并存入数组
+                function readfile()
+                {
+                    //count=0;
+                    var file=document.getElementById("file").files[0];
+                    var reader=new FileReader();
+                    reader.readAsText(file);
+                    reader.onload = function (e) 
+                    {
+                        //以换行标志作为分隔符
+                        var fileText = e.target.result.split("\n");
+                        for(var i=0;i<fileText.length;i++)
+                        {
+                            if(fileText[i].length>3) //取出所有非END的行
+                            {
+                                var arr=fileText[i].split(",");//将编号、x、y分隔开
+                                x[count]=arr[0];
+                                y[count]=arr[1];
+                                count++;
+                            }
+                        }
+                    }
+                   
+                }  
+                function distance(pa,pb){
+                    var d;
+	                d=Math.sqrt((x[pa]-x[pb])*(x[pa]-x[pb])+(y[pa]-y[pb])*(y[pa]-y[pb]));
+	                return d;
+                }
+                function del(a,b){
+                    var c=a+1;
+                    while(c<b){
+                        x[c]=0;
+                        y[c]=0;
+                        c++;
+                    }
+                }
+                function Daogelasi(p1,p2){
+                    var a,b,c,cosB,cosC,sinB,dmax,d;
+                    var e=708;
+                    var i=0;
+                    var maxno=p1;
+                    if(p2-p1>=2){
+                        dmax=0;
+                        a=distance(p1,p2);
+                        i=p1+1;
+                        while(i<p2){
+                            b=distance(p1,i);
+                            c=distance(p2,i);
+                            cosB=(a*a+c*c-b*b)/(2*a*c);
+		                    cosC=(a*a+b*b-c*c)/(2*a*b);
+		                    sinB=Math.sqrt(1-cosB*cosB);
+                            if(cosB==0||cosC==0){
+                                if(cosB==0)d=c;
+                                else d=b;
+                            }
+                            else d=c*sinB;
+                            if(dmax<=d){
+                                dmax=d;
+                                maxno=i;
+                            }
+                            i++;
+                        }
+                            if(dmax>e){
+                                Daogelasi(p1,maxNO);
+			                    Daogelasi(maxNO,p2);
+                            }
+                            else del(p1,p2);
+		
+                    }
+                    }
+
+                
+           
+                //绘制
+                function draw_map(canvas)
+                {
+                  var ctx = canvas.getContext("2d");  
+                  ctx.lineWidth =5;
+                  ctx.strokeStyle ='red';   
+                  canvas.width = 1000;
+                  canvas.height = 700;
+                  var n=0;
+                  var flag=0;
+                     for(var i=0;i<MAXAMOUNT-1;i++)
+                    {
+                        if((x[i]!=0)&&(x[i+1]!=0))
+                        {
+                            ctx.beginPath();
+                            ctx.moveTo(x[i]*5,500-y[i]*5);
+                            ctx.lineTo(x[i+1]*5,500-y[i+1]*5);
+                            ctx.stroke();
+                            n++;
+                        }
+                    }
+                    
+                }
+                
+            </script>
+    </html>
+       
